@@ -1,0 +1,36 @@
+
+<div class=" rounded search-box col-12 shadow  border p-0">
+
+<b class=" d-block p-2 font-15 bg-light-custom" style="color:#2c519b;">
+  <span class="span-icon"><i class="fas fa-link"></i></span>
+  روابط سريعة
+</b>
+
+  <ul class="list-group">
+    <a href="{% url 'office:invoices' %}" class="border-bottom">
+      <li class="list-group-item border-0 ">
+        الفواتير
+      </li>
+    </a>
+    <a href="{% url 'office:agenda' %}" class="border-bottom">
+      <li class="list-group-item border-0 ">
+        جدول الاعمال
+      </li>
+    </a>
+    <a href="{% url 'office:clients' %}" class="border-bottom">
+      <li class="list-group-item border-0 ">
+        فهرس العملاء
+      </li>
+    </a>
+    <a href="{% url 'office:manage_assistants' %}" class="border-bottom">
+      <li class="list-group-item border-0 ">
+        إدارة الموظفين
+      </li>
+    </a>
+    <a href="#" class="border-bottom">
+      <li class="list-group-item border-0 ">
+        المكتبة القانونية
+      </li>
+    </a>
+  </ul>
+</div>

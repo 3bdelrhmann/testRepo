@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'libraries/semantic/semantic.min.css' %}"  />
+<link rel="stylesheet" href="{% static 'css/home_page.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="bg home_page_container overflow-hidden" style="background-image: url('{% static 'images/home_page_img.jpg' %}')">
+  
+  <div class="overlay">
+  <div class="container">
+    <div class="home_page_header overflow-hidden pt-5 pb-5">
+
+      <div class="title col mb-5">
+        <h1><span class="title-ico"><i class="fas fa-balance-scale-left"></i></span> قارن بين افضل محامي مصر</h1>
+        <h3 class="m-0">من حيث تكلفة الإستشارة, اراء العملاء, المحافظة ,المنطقة</h3>
+      </div>
+      <div class="col-xl-7 col-lg-9 col-12 search_lawyers_box float-left overflow-hidden mt-5 mb-5">
+        <div class="row m-0 p-0">
+          <div id="search_type_phone_btn"  class="col-6 float-right text-center pt-3 pb-3  rounded-top bg-white"><h4><span class="ico ml-3"><i class="fas fa-phone"></i></span> إستشارة هاتفية</h4></div>
+          <div id="search_type_onsite_btn" class="col-6 float-right text-center pt-3 pb-3  rounded-top "><h4><span class="ico ml-3"><i class="far fa-calendar-alt"></i></span> زيارة مكتبية</h4></div>
+        </div>
+        <div class="row m-0 p-0">
+          <div id="search_type_phone_box" class="bg-white col-12 rounded-bottom">
+            <form class="ui form pt-4 pb-4">
+              <div class="two fields">
+                <div class="field">
+                  <label>التخصص</label>
+
+                  <div class="ui fluid search selection dropdown text-right d-none d-sm-none d-md-none d-lg-block">
+                    <input type="hidden" name="country">
+                    <i class="dropdown icon"></i>
+                    <div class="default text text-right">تخصص المحامي</div>
+                    <div class="menu">
+                    </div>
+                  </div>
+                  <select class="ui dropdown d-sm-block d-md-block d-lg-none">
+                    <option value="">Gender</option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                  </select>
+
+                </div>
+                <div class="field">
+                  <label>إسم المحامي</label>
+                  <input type="text" name="shipping[first-name]" placeholder="إسم المحامي">
+                </div>
+              </div>
+              <div class="two fields pt-3">
+                <div class="field">
+                  <button type="button" class="ui button primary col search_btn" ><span class="serach-ico ml-2"><i class="fas fa-search"></i></span> إبحث</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div id="search_type_onsite_box" class="bg-white col-12 rounded-bottom">
+            <form class="ui form pt-4 pb-4">
+
+              <div class="two fields">
+
+                <div class="field">
+                  <label>التخصص</label>
+                  <div class="ui fluid search selection dropdown text-right">
+                    <input type="hidden" name="country">
+                    <i class="dropdown icon"></i>
+                    <div class="default text text-right">تخصص المحامي</div>
+                    <div class="menu">
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>إسم المحامي</label>
+                  <input type="text" name="shipping[first-name]" placeholder="إسم المحامي">
+                </div>
+              </div>
+              <div class="two fields">
+                <div class="field">
+                  <label>المحافظة</label>
+                  <div class="ui fluid search selection dropdown text-right">
+                    <input type="hidden" name="country">
+                    <i class="dropdown icon"></i>
+                    <div class="default text text-right">المحافظة</div>
+                    <div class="menu">
+                  </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>المنطقة</label>
+                  <div class="ui fluid search selection dropdown text-right">
+                    <input type="hidden" name="country">
+                    <i class="dropdown icon"></i>
+                    <div class="default text text-right">المنطقة</div>
+                    <div class="menu">
+                    </div>
+                  </div>
+                </div>
+              </div>              
+              <div class="two fields pt-3">
+                <div class="field">
+                  <button type="button" class="ui button primary col search_btn" ><span class="serach-ico ml-2"><i class="fas fa-search"></i></span> إبحث</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+</div>
+
+<div class="container overflow-hidden">
+  <div class="row pt-5 pb-5">
+    <h1 class="mr-auto ml-auto"><b>في 3 خطوات بس</b></h1>
+  </div>
+  <div class="row">
+    <div class="col-sm col-12 text-center pt-5 pb-5">
+      <h2><i class="fas fa-search"></i></h2>
+      <h2>1.إبحث</h2>
+      <p class="body">
+        عن تخصص المحامي المناسب
+      </p>
+    </div>
+    <div class="col-sm col-12 text-center pt-5 pb-5"> 
+      <h2><i class="fas fa-balance-scale-left"></i></h2>
+      <h2>2.قارن</h2>
+      <p class="body">
+        بين أفضل محامي مصر 
+      </p>
+    </div>
+    <div class="col-sm col-12 text-center pt-5 pb-5"> 
+      <h2><i class="far fa-calendar-check"></i></h2>
+      <h2>3.إحجز</h2>
+      <p class="body">
+        الميعاد المناسب ليك 
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <section class="blog">
+    <div class="row pt-5 pb-5">
+
+      <article class="col-sm-6 col-12 p-0" style="background-image: url('{% static 'images/16167903_l.jpg' %}');">
+        <div class="overlay pr-3 pb-1">
+          <a href=""><h3 class="">عنوان كبير</h3></a>
+        </div>
+      </article>
+      <article class="col-sm-6 col-12 p-0" style="background-image: url('{% static 'images/16167903_l.jpg' %}');">
+        <div class="overlay pr-3 pb-1">
+          <a href=""><h3 class="">عنوان كبير</h3></a>
+        </div>
+      </article>
+      <article class="col-sm-6 col-12 p-0" style="background-image: url('{% static 'images/16167903_l.jpg' %}');">
+        <div class="overlay pr-3 pb-1">
+          <a href=""><h3 class="">عنوان كبير</h3></a>
+        </div>
+      </article>
+      <article class="col-sm-6 col-12 p-0" style="background-image: url('{% static 'images/16167903_l.jpg' %}');">
+        <div class="overlay pr-3 pb-1">
+          <a href=""><h3 class="">عنوان كبير</h3></a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+</div>
+
+{% endblock%}
+{% block footer %}
+<script
+  src="https://cdn.rtlcss.com/semantic-ui/2.4.1/semantic.min.js"
+  integrity="sha384-6urqf2sgCGDfIXcoxTUOVIoQV+jFr/Zuc4O2wCRS6Rnd8w0OJ17C4Oo3PuXu8ZtF"
+  crossorigin="anonymous"></script>
+<script
+  src="{% static 'js/home_page.js' %}">
+</script>
+<footer class="overflow-hidden ">
+  <div class="row mb-2 call-center-row">
+    <div class="container">
+      <div class="col text-right text-white call-center pt-1 pb-1">
+        <span>في حالة مواجهة اي مشاكل برجاء التواصل على : 9999</span>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 class="title">إنابة</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-12">
+        <ul class="p-3 list">
+          <li class="mt-2 mb-2"><a href="#">من نحن</a></li>
+          <li class="mt-2 mb-2"><a href="#">شروط الإستخدام</a></li>
+          <li class="mt-2 mb-2"><a href="#">إتفاقية الإستخدام</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-12">
+        <ul class="p-3 list">
+          <li class="mt-2 mb-2"><a href="#">من نحن</a></li>
+          <li class="mt-2 mb-2"><a href="#">إتصل بنا</a></li>
+          <li class="mt-2 mb-2 text-center">
+            <a href="#" class="facebook-ico bg-white text-dark rounded pr-4 pl-4 pt-3 pb-3 d-inline-block"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="twitter-ico  bg-white text-dark rounded pr-4 pl-4 pt-3 pb-3 d-inline-block"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="youtube-ico  bg-white text-dark rounded pr-4 pl-4 pt-3 pb-3 d-inline-block"><i class="fab fa-youtube"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+{% endblock %}

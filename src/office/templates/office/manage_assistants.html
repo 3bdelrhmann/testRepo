@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/assistants.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+  <div class="modal fade" id="DeleteModalConfirmation" tabindex="-1" role="dialog" aria-labelledby="DeleteModalConfirmation" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title " id="exampleModalLongTitle">تأكيد الحذف</h5>
+        </div>
+        <div class="modal-body">
+          هل متأكد من حذف هذا العنصر ؟
+        </div>
+        <div class="modal-footer d-block">
+          <button type="button" class="col-3 btn btn-secondary" data-dismiss="modal">إغلاق</button>
+          <button type="button" class="col-3 btn btn-danger" id="ConfirmationDeleteBtn">
+            <span id="loading_ico" class="delete-loading"><i class="fas fa-spinner fa-spin"></i></span>
+            <span id="delete-content">حذف</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mt-5 mb-5">
+    <header class="pr-4">
+      <h5 class="office-header m-0">
+        <span class="header-icon"><i class="fas fa-users-cog"></i></span>  <b>
+          {{title}}
+        </b>
+      </h5>
+    </header>
+</div>
+  <div class="row">
+    <div class="col-lg-8 col-md-12 mb-5">
+      {% if messages %}
+      {% include 'alerts.html' %}
+      {% endif %}
+      <div class="mb-4 p-0 rounded search-box col-12 shadow border ">
+        <header class="bg-light-custom p-2">
+          <span class="span-icon"><i class="fas fa-search"></i></span>  <b>إبحث</b>
+        </header>
+        <form class="p-4 " action="#" method="get" id="search_form">
+          {% csrf_token %}
+          <div class="row">
+              <div class="col-12 pb-3">
+                <input name="query" class="form-control font-13" autocomplete="off" type="search" id='search-box' placeholder="بالإسم او البريد الإلكتروني">
+              </div>
+          </div>
+          <div class="row mt-3">
+              <div class="col-12 pb-3">
+                <button type="submit" id="search_btn" class="font-13 col btn btn-base">
+                  <span class="button-icon">
+                    <i class="fas fa-angle-right"></i>
+                  </span>
+                  عرض النتائج
+                </button>
+              </div>
+            </div>
+        </form>
+      </div>      
+      <div class="clients  overflow-hidden mb-4 pb-4 p-0 rounded results-box col-12 shadow-lg border">
+        <div class="row mb-3 mt-0 options_row">
+          <div class="text-right options col">
+          
+            <span class="assistant-title  p-1 d-block font-15" id="assistant-title">جميع الموظفين</span>
+
+            <span  class="open_options options-title pt-2 pb-2 pl-2 d-block font-15 text-white shadow">
+              <span class="icon text-center"><i class="fas fa-cogs"></i></span>
+              خيارات إضافية
+            </span>
+            <div class="row mt-5 mb-5 ">
+              <div id="options_list" class="options_list col bg-light-custom ">
+                <a href='{% url "office:create_assistant" %}'>
+                  <span class="pt-3 pb-3 opt_list_item d-block  border-bottom" >
+                      <span>
+                        <span class="opt_ico ml-3 mr-3"><i class="fas fa-plus"></i> </span> <span class="title">إضافة موظف</span>
+                      </span>
+                  </span>
+                </a>
+                <span class="pt-3 pb-3 opt_list_item d-block open_options text-muted">
+                  <span>
+                    <span class="opt_ico text-danger ml-3 mr-3"><i class="fas fa-times"></i></span> 
+                    <span class="font-13">غلق</span> 
+                  </span>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div id="client_container" class=" overflow-hidden">
+            
+            <div id="client_empty_box">
+              <div class="client_box overflow-hidden mb-4 col" data-obj-id=''>
+                <div class="row  border-bottom">
+                  <span  class="col pt-2 pb-2 d-block text-right text-muted border-left"><span class="span-icon text-right"><i class="fas fa-user-tie"></i></span><b>الموظف : </b> <span id="assistant_name"></span></span>
+                  <span  class="col pt-2 pb-2 d-block text-right text-muted"><span class="span-icon text-right"><i class="fas fa-calendar-day"></i></span><b>البريد الإلكتروني : </b> 
+                  <span id="assistant_mail"></span>
+                </span>
+                
+                </div>
+                <div class="row">
+                  <a id="update_assistant_url" href="#" class="col pt-3 pb-3 d-block text-center border-left light-color ">
+                    <span class="span-icon text-right"><i class="fas fa-edit"></i></span>تعديل
+                  </a>
+                  <span data-id-delete="" id="delete-object" class="cursor-pointer col pt-3 pb-3 d-block text-center text-danger" data-target="#DeleteModalConfirmation" data-toggle="modal">
+                    <span class="span-icon text-right text-danger"><i class="far fa-trash-alt"></i></span>
+                     حذف 
+                  </span>
+                  </div>
+              </div>
+            </div>
+            
+            <div id="clients_box" class="overflow-hidden">
+              
+            </div>
+
+
+          <div cl ass="row ">
+            <button id="load_more" type="button" class="mt-4 mb-4 col-4 btn btn-base mr-auto ml-auto font-14 d-block">تحميل المزيد <span id="loading_ico" class="float-right"><i class="fas fa-spinner fa-spin"></i></span></button>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <aside class="col-lg-3 col-md-12">
+      {% include "aside.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}
+
+<script>
+  var assistants_search_url = '{% url "office_api:search_assistant" %}'
+  var create_assistant_url  = '{% url "office_api:create_assistant" %}'
+  var delete_obj_url        = '{% url "office_api:delete_assistant" %}'
+  var update_assistant_url  = '{{update_assistant_url}}'
+
+</script>
+
+<script src="{% static 'js/get_assistant.js' %}">
+</script>
+<script src="{% static 'js/create_assistant.js' %}">
+</script>
+<script src="{% static 'js/assistant.js' %}">
+</script>
+<script
+  src="{% static 'js/delete_obj.js' %}">
+</script>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block style %}
+    <link rel="stylesheet" href="{% static 'libraries/datepicker/css/bootstrap-datepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/create_invoice.css' %}">
+    {% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row mt-5 mb-5">
+    <header class="pr-4">
+      <h5 class="office-header m-0">
+        <span class="header-icon"><i class="fas fa-user"></i></span><b>
+          {{title}}
+        </b>
+      </h5>
+    </header>
+</div>
+  <div class="row">
+    <div class="col-lg-8 col-md-12 mb-5">
+      {% if messages %}        
+       {% include 'alerts.html' %}
+      {% endif %}
+      <div class="mb-4 p-4 rounded search-box col-12 shadow border ">
+
+        <div class="col" id="successed">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>تم</strong> إضافة عميل بنجاح
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="client_box overflow-hidden col mb-4" data-obj-id=''>
+            <div class="row border-bottom ">
+              <span id="client_notes" class="d-block text-justify font-15 text-muted p-2 ">
+              </span>
+            </div>
+            <div class="row  border-bottom ">
+              <span  class="col pt-2 pb-2 d-block text-right border-left text-muted"><span class="span-icon text-right"><i class="fas fa-user-tie"></i></span><b>العميل : </b> <span id="client_name"></span></span>
+              <span  class="col pt-2 pb-2 d-block text-right text-muted"><span class="span-icon text-right"><i class="fas fa-calendar-day"></i></span><b>رقم الملف : </b> <span class="date_container"><span id="client_file_id"></span></span></span>
+            </div>
+            <div class="row  border-bottom ">
+              <a id="client_mobile_number_href" href="#" class="col pt-3 pb-3 d-block text-center border-left light-color ">
+                <span class="span-icon text-right"><i class="fas fa-phone"></i></span>إتصال
+              </a>
+              <span  class="col pt-3 pb-3 d-block text-center  light-color ">
+                <span class="span-icon text-right"><i class="fas fa-copy"></i></span>
+                <span id="client_mobile_number"></span>
+              </span>
+            </div>
+            <div class="row ">
+              <a id="invoice_href" href="#" class="col pt-3 pb-3 d-block text-center border-left light-color ">
+                <span class="span-icon text-right"><i class="fas fa-edit"></i></span>تعديل
+              </a>
+              <span data-id-delete="" id="delete-object" class="cursor-pointer col pt-3 pb-3 d-block text-center text-danger" data-target="#DeleteModalConfirmation" data-toggle="modal">
+                <span class="span-icon text-right text-danger"><i class="far fa-trash-alt"></i></span>
+                 حذف 
+              </span>
+            </div>
+          </div>
+
+          <div class="row bg-light">
+            <a class="col pt-3 pb-3 d-block text-center " id="mobile_number_href" href="{% url 'office:agenda' %}">
+              <span class="span-icon text-right"><i class="fas fa-arrow-alt-circle-right"></i></span>
+              الذهاب لـفهرس العملاء
+            </a>
+          </div>
+  
+          
+        </div>
+
+
+
+
+        <div class="p-2" id="add_new_client_row">
+          <div class="form-errors col-12" id="form-errors">
+          </div>
+          <form class="col pt-4 pb-4" action="#" method="POST" id="create_client_form" novalidate>
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="customer_name">إسم العميل</label>
+                {{form.customer_name}}
+              </div>
+              <div class="form-group col-md-6">
+                <label for="assign_to">المحامي <span class="optional text-muted">(إختياري)</span></label>
+                {{form.assign_to}}
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="customer_mobile">رقم الهاتف </label>
+                {{form.customer_mobile}}
+              </div>
+              <div class="form-group col-md-6">
+                <label for="file_id">رقم الملف</label>
+                {{form.file_id}}
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="inputEmail4">ملحوظات <span class="optional text-muted">(إختياري)</span></label>
+                {{form.notes}}
+              </div>
+            </div>
+            <div class="form-row mt-4 ">
+              <button type="submit"  class="mr-auto ml-auto col-3 btn btn-base">إضافة <span id="loading_ico_add" class="float-right"><i class="fas fa-spinner fa-spin"></i></span></button>
+              <button id="cancel_add_client" type="button" class="mr-auto ml-auto col-3 btn btn-danger">إلغاء</button>
+            </div>
+          </form>              
+        </div>
+      
+      </div>
+    </div>
+    <aside class="col-lg-3 col-md-12">
+      {% include "office/agenda_aside.html" %}
+      {% include "aside.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}
+
+<script>
+  var create_client_url  = '{% url "office_api:create_new_client" %}'
+</script>
+
+<script
+  src="{% static 'libraries/datepicker/js/bootstrap-datepicker.min.js' %}">
+</script>
+<script
+  src="{% static 'libraries/datepicker/js/datepicker-ar.js' %}">
+</script>
+
+<script
+  src="{% static 'js/create_client.js' %}">
+</script>
+{% endblock %}

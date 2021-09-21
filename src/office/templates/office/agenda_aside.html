@@ -1,0 +1,21 @@
+<div class=" rounded col-12 shadow  border mb-4 p-0">
+    
+    
+    <b class="bg-light-custom d-block p-2 font-15" style="color:#2c519b;"><span class="span-icon"><i class="fas fa-calendar-alt"></i></span>  تواريخ قادمة</b>
+    <ul class="list-group">
+    {% for incoming_date in incoming_dates %}
+    <a href="#" class="border-bottom get_date_results" data-date="{{incoming_date.date|date:'Y-m-d'}}" date-show="{{incoming_date.date|date:'Y | b-d'}}">
+        <li class="list-group-item border-0 font-14 text-shadow-1">
+            <span class="date_container">
+                <span>{{incoming_date.date|date:'Y | b-d'}}</span>
+            </span>
+        </li>
+    </a>
+    {% empty %}
+    <li class="list-group-item border-0 font-14 text-shadow-1 text-muted">
+        لا توجد نتائج
+    </li>
+    {% endfor %}
+    </ul>
+    
+</div>

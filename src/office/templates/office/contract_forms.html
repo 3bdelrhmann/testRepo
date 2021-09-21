@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/contract_forms.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 mb-5">
+      <header class="pr-4">
+        <h5 class="office-header m-0">
+          <span class="header-icon"><i class="fas fa-file-contract"></i></span>  <b>
+            {{title}}
+          </b>
+        </h5>
+      </header>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-md-12 mb-5">
+        {% if messages %}        
+          {% include 'alerts.html' %}
+        {% endif %}
+        <div class="mb-4 p-0 rounded search-box col-12 shadow border ">
+          <header class="bg-light-custom p-2">
+            <span class="span-icon"><i class="fas fa-search"></i></span>  <b>إبحث</b>
+          </header>
+          <form class="p-4 " action="#" method="get" id="search_form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 pb-3">
+                  <input name="query" class="form-control font-13" autocomplete="off" type="search" id='search-box' placeholder="مثال : عقد إيجار...." >
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 pb-3">
+                  <button type="submit" id="search_btn" class="font-13 col btn btn-base">
+                    <span class="button-icon">
+                      <i class="fas fa-angle-right"></i>
+                    </span>
+                    عرض النتائج
+                  </button>
+                </div>
+              </div>
+          </form>
+        </div>
+        <div  class="contracts  overflow-hidden mb-4 p-0 pb-4 rounded results-box col-12 shadow-lg border">
+          <span class="contract-title  p-1 d-block font-15" id="contract-title">جميع العملاء</span>
+          
+          <span  class="open_options options-title pt-2 pb-2 pl-2 d-block font-15 text-white shadow">
+            <span class="icon text-center"><i class="fas fa-cogs"></i></span>
+            خيارات إضافية
+          </span>
+          <div class="row mt-5 mb-5 ">
+            <div id="options_list" class="options_list col bg-light-custom shadow">
+              <span class="pt-3 pb-3 opt_list_item d-block  border-bottom get_date_results" id="today-date" data-date='{{today|date:"Y-m-d"}}'><span> <span class="opt_ico ml-3 mr-3"><i class="fas fa-caret-left"></i> </span> مواعيد اليوم </span></span>
+              <span class="pt-3 pb-3 opt_list_item d-block  border-bottom"><span> <span class="opt_ico ml-3 mr-3"><i class="fas fa-caret-left"></i> </span> إضافة عميل </span></span>
+              <span class="pt-3 pb-3 opt_list_item d-block  open_options text-muted"><span> <span class="opt_ico ml-3 mr-3"><i class="fas fa-caret-up"></i> </span> غلق </span></span>
+            </div>
+          </div>
+
+
+            <div id="contract_container" class=" overflow-hidden">
+              <div id="contract_row">
+                <div id="contract_empty">
+                    <div class="p-0 mt-3 contract overflow-hidden   float-right col mb-4">
+                      <div class="p-2 form-grouo  bg-light-custom">
+                        <span id="contract_title" class="m-0 font-15"></span>
+                      </div>
+                        <div class="p-3 form-grouo  pt-2 pb-2">
+                            <p class="font-14" id="contract_preview">
+
+                            </p>
+                        </div>
+                        <div class="pt-0 overflow-hidden">
+
+                            <a href="#" id="download_url"      class="pt-2 pb-2 m-0 text-white col-6 float-right text-center bg-light-custom text-dark border-left">
+                              <span class="icon text-muted" ><i class="fa fa-download"></i></span>
+                              <span class="font-15">تحميل</span> 
+                            </a>
+                            <a href="#" id="view_contract_url" class="pt-2 pb-2 m-0 text-white col-6 float-right text-center bg-light-custom text-dark">
+                              <span class="icon text-muted" ><i class="fas fa-eye"></i></span>
+                              <span class="font-15">عرض</span> 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="contract_box" class="mr-auto ml-auto">
+
+                </div>
+              </div>
+
+            <div class="row">
+              <button id="load_more" type="button" class="mt-4  col-4 btn btn-base mr-auto ml-auto font-14">تحميل المزيد <span id="loading_ico" class="float-right"><i class="fas fa-spinner fa-spin"></i></span></button>
+            </div>
+            </div>
+          </div>
+      </div>
+      <aside class="col-lg-3 col-md-12">
+        {% include "aside.html" %}
+      </aside>
+    </div>
+  </div>
+  {% endblock %}
+{% block footer %}
+<script>
+  var contracts_search_url = '{% url "office_api:search_contracts" %}'
+</script>
+<script
+  src="{% static 'js/contract_forms.js' %}">
+</script>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+.home_page_container *{
+    font-family: 'Almarai','Mukta';
+}
+.home_page_header .title .title-ico {
+    font-size: 30px;
+}
+.bg.home_page_container{
+    
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: bottom;
+}
+.home_page_container > .overlay{
+    background-color: #00919e75;
+    height: 100%;
+}
+.home_page_container .title {
+    color: #fff;
+    text-shadow: 1px 2px 3px #000;
+}
+.opt-selected{
+    color: #142850 !important;
+}
+#search_type_phone_btn,
+#search_type_onsite_btn{
+    transition: all 0.2s cubic-bezier(0, 0, 0, 0.9);
+    cursor: pointer;
+    color: #142850;
+}
+#search_type_onsite_btn{
+    color: #fff;
+}
+#search_type_onsite_box{
+    display: none;
+}
+.search_lawyers_box .ico {
+    font-size: 15px;
+}
+.search_lawyers_box {
+    min-height: 310px;
+}
+.search_lawyers_box .serach-ico{
+    font-size: 13px;
+}
+section.blog article{
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+section.blog article h3{
+    padding-top: 280px;
+}
+section.blog article .overlay{
+    height: 100%;
+    background-color: #00000096;
+}
+section.blog article a{
+    color: #fff;
+}
+section.blog article a:hover{
+    text-decoration:underline;
+}

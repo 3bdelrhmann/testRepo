@@ -1,0 +1,70 @@
+.clients-header{
+    color: #142850;
+    font-weight:bolder;
+}
+.clients-header:after{
+    content: "";
+    border-top: 5px solid #00909e;
+    width: 30px;
+    display: block;
+    position: relative;
+    top: 10px;
+}
+.card.client{
+    display: none;
+    border:none;
+    border-bottom: 1px solid #ddd;
+    background-color: #2c519b08;
+}
+.client .client_data label{
+    color: #00909e;
+}
+.client .client_data span{
+    text-shadow: 1px 1px #ddd;
+    color: #2c519b;
+
+}
+.client .client_data {
+    border-bottom: 1px solid #ededed;;
+}
+.client .client_data:last-child{
+    border:none;
+}
+.client .card-body a{
+    text-decoration: none;
+}
+.card-body .lawyer{
+    color: #27496d;
+}
+form label {
+    color: #2c519b;
+}
+.alert-dismissible .close{
+    left:0 ;
+    right: unset;
+  }
+#form-errors {
+    display: none;
+}
+#add_new_client_row {
+    display: none;
+}
+#loading_ico,#loading_ico_add{
+    position: relative;
+    top: 2px;
+}
+.client_box{
+    background-color: #2c519b08;
+}
+.client_box{
+    display: none;
+}
+.assistant-title{
+    background-color: #2c519b;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    left: 25px;
+}

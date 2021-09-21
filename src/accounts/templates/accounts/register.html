@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'libraries/datepicker/css/bootstrap-datepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% block content %}  
+<div class="container mt-5">
+  <div class="row">
+    <form novalidate action="{% url 'accounts:register' %}" enctype='multipart/form-data' method="post" class=" rounded pt-4 pb-4 register-form overflow-hidden col-12 bg-white shadow-lg border">
+        {% csrf_token %}
+        <div class="pb-3 float-right col-lg-6 col-12 m-0 basic-info overflow-hidden">
+          <header class="pt-3 pb-5 col-12 m-0 overflow-hidden d-block">
+            <h6 class="m-0 float-right"><b>التسجيل</b></h6>
+          </header>
+          <div class="form-fields col-12">
+              <div class="form-group row pb-3">
+                <label class="col-12 col-form-label">الأسم</label>
+                  <div class="col">
+                    {{RegisterForm.first_name}}
+                    {% for error in RegisterForm.first_name.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+                  <div class="col">
+                    {{RegisterForm.last_name}}
+                    {% for error in RegisterForm.last_name.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+              </div>
+              <div class="form-group row ">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label class="col-12 col-form-label">البريد الإلكتروني</label>
+                  </div>
+                  <div class="col-12">
+                    {{RegisterForm.email}}
+                    {% for error in RegisterForm.email.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row ">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label class="col-12 col-form-label">كلمة السر</label>
+                  </div>
+                  <div class="col-12">
+                    {{RegisterForm.password}}
+                    {% for error in RegisterForm.password.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row ">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label class="col-12 col-form-label">رقم الهاتف</label>
+                  </div>
+                  <div class="col-12">
+                    {{RegisterForm.phone_number}}
+                    {% for error in RegisterForm.phone_number.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row ">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label class="col-12 col-form-label">الجنس</label>
+                  </div>
+                  <div class="col-12">
+                    {{RegisterForm.gender}}
+                    {% for error in RegisterForm.gender.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row ">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label  class="col-12 col-form-label">تاريخ الميلاد</label>
+                  </div>
+                  <div class="col-12">
+                    {{RegisterForm.birth_date}}
+                    {% for error in RegisterForm.birth_date.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row ">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label  class="col-12 col-form-label">الصورة الشخصية <span class="text-muted">(إختياري)</span></label>
+                  </div>
+                  <div class="col-12">
+                    <div class="custom-file">
+                      {{RegisterForm.profile_img}}
+                      {% for error in RegisterForm.profile_img.errors %}
+                        <span class="error_form_msg">{{ error|escape }}</span>
+                      {% endfor %}
+                      <label class="custom-file-label text-center" for="imgFile">إختر الصورة</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+        </div>
+        <div class="pb-3 float-right col-lg-6 col-12 m-0 lawyer-info overflow-hidden">
+          <header class="pt-3 pb-5 col-12 m-0 overflow-hidden d-block">
+            <h6 class="m-0 float-right"><b>-</b></h6>
+          </header>
+          <div class="form-fields col-12">
+            <div class="form-group row pb-3">
+              <label  class="d-block col-sm-12 col-form-label">درجة القيد</label>
+                <div class="col">
+                  {{RegisterForm.lawyer_degree}}
+                  {% for error in RegisterForm.lawyer_degree.errors %}
+                    <span class="error_form_msg">{{ error|escape }}</span>
+                  {% endfor %}
+                </div>
+            </div>
+            <div class="form-group row ">
+              <div class="col-12 p-0">
+                <div class="col-12 pb-1 p-0 d-block">
+                  <label class="col-12 col-form-label">عام التخرج</label>
+                </div>
+                <div class="col-12">
+                  {{RegisterForm.graduate_date}}
+                  {% for error in RegisterForm.graduate_date.errors %}
+                    <span class="error_form_msg">{{ error|escape }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+              <div class="form-group row pb-3">
+                <label class="d-block col-sm-12 col-form-label">الدولة</label>
+                  <div class="col">
+                    {{RegisterForm.country}}
+                    {% for error in RegisterForm.country.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+              </div>
+              <div class="form-group row pb-3">
+                <label for="governorate" class="d-block col-sm-12 col-form-label">المحافظة</label>
+                  <div class="col">
+                    <select required name='governorate' class="form-control form-control" id="governorate">
+                      <option disabled selected value>-------------</option>
+                    </select>
+                  </div>
+                  <div class="col">
+                    <select required name='region' class="form-control form-control" id="regions">
+                      <option disabled selected value> المنطقة</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group row ">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label class="col-12 col-form-label">عنوان المكتب</label>
+                  </div>
+                  <div class="col-12">
+                    {{RegisterForm.office_add}}
+                    {% for error in RegisterForm.office_add.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                    <span class="address_sample d-block pt-3 text-muted"><b class="text-muted">العنوان النهائي : </b> <span id="address_sample"></span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-5">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label class="text-muted col-12 col-form-label">بقيامك بالتسجيل في الوقع فا انت توافق على <b><a href="{% url 'settings:privacy_and_terms' %}" target="_blank">شروط الإستخدام</a></b></label>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="register-button col-12 btn btn-base ">التسجيل</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+
+
+{% block footer %}
+<script
+  src="{% static 'libraries/datepicker/js/bootstrap-datepicker.min.js' %}">
+</script>
+<script
+  src="{% static 'libraries/datepicker/js/datepicker-ar.js' %}">
+</script>
+<script>
+  var gov_url     = '{% url "accounts_api:governorate" %}'
+  var regions_url = '{% url "accounts_api:regions" %}'
+</script>
+<script
+  src="{% static 'js/register.js' %}">
+</script>
+<script>
+  $('#birthdate').datepicker({
+    maxViewMode: 2,
+    startView: 2,
+    language: "ar",
+    autoclose: true,
+    todayHighlight: true,
+    format: 'yyyy-mm-dd',
+    orientation: "top auto",
+    // endDate: '{{endDate}}',
+    startDate: '1950-12-31',
+  });
+  $('#graduate_date').datepicker({
+    
+    maxViewMode: 2,
+    startView: 2,
+    minViewMode: 2,
+    language: "ar",
+    autoclose: true,
+    todayHighlight: true,
+    format: 'yyyy-mm-dd',
+    orientation: "top auto",
+    // endDate: '{{endDate}}',
+    startDate: '1950-12-31',
+
+
+  });  
+
+</script>
+{% endblock %}

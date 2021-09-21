@@ -1,0 +1,17 @@
+.register-form header h6{
+    color: #142850;
+}
+.register-form header:after{
+    content: "";
+    border-top: 5px solid #00909e;
+    width: 45px;
+    display: block;
+    position: relative;
+    top: 33px;
+}
+.register-form h6{
+    font-weight:bolder;
+}
+.register-form .address_sample{
+    font-size: 17px;
+}

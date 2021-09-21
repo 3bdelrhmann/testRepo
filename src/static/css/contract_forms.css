@@ -1,0 +1,35 @@
+.contracts-header{
+    color: #142850;
+    font-weight:bolder;
+}
+.contracts-header:after{
+    content: "";
+    border-top: 5px solid #00909e;
+    width: 30px;
+    display: block;
+    position: relative;
+    top: 10px;
+}
+
+.contract{
+    display: none;
+    background-color: #fff;
+}
+#loading_ico{
+    display: none;
+    position: relative;
+    top: 2px;
+
+}
+.contract-title{
+    background-color: #2c519b;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    left: 25px;
+}
+#contract_preview{
+    line-height: 2;
+}

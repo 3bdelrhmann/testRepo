@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/main_office.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row  items mr-auto ml-auto">
+    <header>
+      <h5 class="office-header">
+        <b>إدارة المكتب</b>
+      </h5>
+    </header>
+  </div>
+  {% if messages %}        
+    {% include 'alerts.html' %}
+  {% endif %}
+  <div class="row pt-5 items mr-auto ml-auto">
+   <a href="{% url 'office:agenda' %}" class="item-link m-2"> 
+     <div class="float-  item col-sm-5 col-5 border shadow-lg bg-white">
+      <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/agenda.png' %}"></div>
+      <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>جدول الأعمال</b></h6></div>
+     </div>
+    </a>
+   <a href="{% url 'office:invoices' %}" class="item-link "> 
+     <div class="mr-auto item col-sm-5 col-5 border shadow-lg bg-white">
+      <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/invoice.png' %}"></div>
+      <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b> الفواتير</b></h6></div>
+     </div>
+    </a>
+  </div>
+  <div class="row pt-5 items mr-auto ml-auto">
+    <a href="{% url 'office:clients' %}" class="item-link m-2"> 
+      <div class="float-  item col-sm-5 col-5 border shadow-lg bg-white">
+       <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/phonebook.png' %}"></div>
+       <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>فهرس العملاء</b></h6></div>
+      </div>
+     </a>
+    <a href="{% url 'office:contract_forms' %}" class="item-link "> 
+      <div class="mr-auto item col-sm-5 col-5 border shadow-lg bg-white">
+       <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/forms.png' %}"></div>
+       <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>نماذج العقود</b></h6></div>
+      </div>
+     </a>
+   </div>
+   <div class="row pt-5 items mr-auto ml-auto">
+    <a href="{% url 'office:manage_assistants' %}" class="item-link m-2"> 
+      <div class="float-  item col-sm-5 col-5 border shadow-lg bg-white">
+        <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/assistancd.png' %}"></div>
+        <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>إدارة الموظفين</b></h6></div>
+      </div>
+     </a>
+    <a href="#soon" class="item-link "> 
+      <div class="mr-auto item col-sm-5 col-5 border shadow-lg bg-white">
+        <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/library.png' %}"></div>
+        <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>المكتبة القانونية</b><span class="font-13 mr-2 text-muted">(قريبًا)</sup></span> </div>
+      </div>
+     </a>
+   </div>
+   <div class="row pt-5 items mr-auto ml-auto">
+    <a href="#soon" class="item-link m-2"> 
+      <div class="float-  item col-sm-5 col-5 border shadow-lg bg-white">
+        <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/money-transfer.png' %}"></div>
+        <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>المعاملات المالية</b></h6></div>
+      </div>
+     </a>
+    <a href="#soon" class="item-link "> 
+      <div class="mr-auto item col-sm-5 col-5 border shadow-lg bg-white">
+        <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/case-study.png' %}"></div>
+        <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>القضايا</b><span class="font-13 mr-2 text-muted">(قريبًا)</sup></span> </div>
+      </div>
+     </a>
+   </div>
+   <div class="row pt-5 items mr-auto ml-auto">
+    <a href="#soon" class="item-link m-2"> 
+      <div class="float-  item col-sm-5 col-5 border shadow-lg bg-white">
+        <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/newspaper.png' %}"></div>
+        <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>اخبار تهمك</b></h6></div>
+      </div>
+     </a>
+    <a href="#soon" class="item-link "> 
+      <div class="mr-auto item col-sm-5 col-5 border shadow-lg bg-white">
+        <div class=" item-icon text-center col-lg-3 col-md-5 col-12 d-inline-block p-2"><img class="img-fluid" src="{% static 'images/analysis.png' %}"></div>
+        <div class=" item-headline  col-lg-5 col-md-6 col-12 d-inline-block"><h6 class="m-0"><b>إحصائيات</b></div>
+      </div>
+     </a>
+   </div>
+</div>
+{% endblock %}
+{% block footer %}
+<script
+  src="{% static 'js/main_office.js' %}">
+</script>
+{% endblock %}

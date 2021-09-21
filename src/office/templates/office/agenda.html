@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'libraries/datepicker/css/bootstrap-datepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/agenda.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+  <div class="modal fade" id="DeleteModalConfirmation" tabindex="-1" role="dialog" aria-labelledby="DeleteModalConfirmation" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title " id="exampleModalLongTitle">تأكيد الحذف</h5>
+        </div>
+        <div class="modal-body">
+          هل متأكد من حذف هذا العنصر ؟
+        </div>
+        <div class="modal-footer d-block">
+          <button type="button" class="col-3 btn btn-secondary" data-dismiss="modal">إغلاق</button>
+          <button type="button" class="col-3 btn btn-danger" id="ConfirmationDeleteBtn">
+            <span id="loading_ico" class="delete-loading"><i class="fas fa-spinner fa-spin"></i></span>
+            <span id="delete-content">حذف</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5 mb-5">
+      <header class="pr-4">
+        <h5 class="office-header m-0">
+          <span class="header-icon">
+            <i class="fas fa-calendar-check"></i></span>
+          <b>
+            {{title}}
+          </b>
+        </h5>
+      </header>
+  </div>
+
+    <div class="row">
+      <div class="col-lg-8 col-md-12 mb-5">
+        {% if messages %}        
+          {% include 'alerts.html' %}
+        {% endif %}
+
+        <div class="mb-4 p-0 rounded search-box col-12 shadow border ">
+          <header class="bg-light-custom p-2">
+            <span class="span-icon"><i class="fas fa-search"></i></span>  <b>إبحث</b>
+          </header>
+          <form class="p-4 " action="#" method="get" id="search_form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-6 col-12 pb-3">
+                  <input name="query" class="form-control font-13" autocomplete="off" type="search" id='search-box' placeholder="بإسم المحكمة او العميل او رقم الهاتف او رقم الجلسة" >
+                </div>
+                {% if not request.user.is_assistant %}
+                  <div class="col-sm-6 col-12 pb-3">
+                    <select class="form-control font-13" name="lawyer">
+                        <option  value selected>المحامي</option>
+                        {% for lawyer in lawyers %}
+                        <option value="{{lawyer.id}}">{{lawyer.get_full_name}}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+            </div>
+              <div class="row mt-3">
+                <div class="col-sm-6 col-12 pb-3">
+                  <button type="submit" id="search_btn" class="font-13 col btn btn-base">
+                    <span class="button-icon">
+                      <i class="fas fa-angle-right"></i>
+                    </span>
+                    عرض النتائج
+                  </button>
+                </div>
+                <div class="col-sm-6 col-12 pb-3">
+                  <input name="session_date" id="search_date" class="font-13 form-control" autocomplete="off" placeholder="التاريخ" >
+                </div>
+              </div>
+          </form>
+        </div>
+
+        <div  class="agenda  overflow-hidden mb-4 p-0 pt-4 rounded results-box col-12 shadow-lg border ">
+          <span class="agenda-title  p-1 d-block font-15" id="agenda-title">اخر الاعمال</span>
+            
+            <span  class="open_options options-title pt-2 pb-2 pl-2 d-block font-15 text-white shadow">
+                <span class="icon text-center"><i class="fas fa-cogs"></i></span>
+                خيارات إضافية
+            </span>
+
+            <div class="row mt-5 mb-5 ">
+              <div id="options_list" class="options_list col bg-light-custom ">
+                <span class="pt-3 pb-3 opt_list_item d-block  border-bottom get_date_results" id="today-date" data-date='{{today|date:"Y-m-d"}}'>
+                  <span>
+                    <span class="opt_ico ml-3 mr-3"><i class="fas fa-calendar-day"></i> </span>
+                     <span class="title">مواعيد اليوم</span> 
+                  </span>
+                </span>
+                <a href="{% url 'office:create_agenda' %}">
+                  <span class="pt-3 pb-3 opt_list_item d-block  border-bottom">
+                      <span>
+                        <span class="opt_ico ml-3 mr-3"><i class="fas fa-plus"></i> </span> <span class="title">إضافة جلسة</span>
+                      </span>
+                  </span>
+                </a>
+                <span class="pt-3 pb-3 opt_list_item d-block open_options text-muted">
+                  <span>
+                    <span class="opt_ico text-danger ml-3 mr-3"><i class="fas fa-times"></i></span> 
+                    <span class="font-13">غلق</span> 
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <div id="agenda_empty" class="overflow-hidden">
+              <div id="agenda_element" class="rounded agenda_element overflow-hidden float-right col mb-4" data-obj-id="">
+                <div class=" agenda_element_info form-grouo ">
+                  <span id="notes" class="d-block text-justify font-15 text-muted p-2 ">
+                  </span>
+                </div>
+                <div class="row border-top border-bottom ">
+                  <span  class="col pt-2 pb-2 d-block text-right border-left text-muted"><span class="span-icon text-right"><i class="fas fa-user-tie"></i></span><b>العميل : </b> <span id="customer_name"></span></span>
+                  <span  class="col pt-2 pb-2 d-block text-right text-muted"><span class="span-icon text-right"><i class="fas fa-sort-numeric-up-alt"></i></span><b>رقم الجلسة : </b> <span id="case_year"></span>/<span id="case_id"></span></span>
+                </div>
+                <div class="row  border-bottom ">
+                  <span  class="col pt-2 pb-2 d-block text-right border-left text-muted"><span class="span-icon text-right"><i class="fas fa-balance-scale"></i></span><b>المحكمة : </b> <span id="court"></span></span>
+                  <span  class="col pt-2 pb-2 d-block text-right text-muted"><span class="span-icon text-right"><i class="fas fa-calendar-day"></i></span><b>ميعاد الجلسة : </b> <span class="date_container"><span id="session_date"></span></span></span>
+                </div>
+                <div class="row border-bottom">
+                  <a href="#" class="col pt-3 pb-3 d-block text-center border-left" id="agenda_update_url" ><span class="span-icon text-right"><i class="fas fa-edit"></i>
+                  </span> تعديل
+                  </a>
+                  
+        
+                  <span data-id-delete="" id="delete-object" class="cursor-pointer col pt-3 pb-3 d-block text-center text-danger" data-target="#DeleteModalConfirmation" data-toggle="modal">
+                    <span class="span-icon text-right text-danger"><i class="far fa-trash-alt"></i></span>
+                     حذف 
+                  </span>
+
+                </div>
+                <div class="row">
+                  <a      class="col pt-3 pb-3 d-block text-center border-left" id="mobile_number_href" href="#"><span class="span-icon text-right"><i class="fas fa-phone"></i></span> إتصال</a>
+                  <span   class="col pt-3 pb-3 d-block text-center text-muted copy_mobile_numer_btn" >
+                    <span class="span-icon text-right"><i class="far fa-copy"></i></span>
+                    <span id="copy_mobile"></span>
+                  </span>
+
+                </div>
+              </div>
+            </div>
+            <div id="agenda_box" class="overflow-hidden d-block">
+            </div>
+            <div class="row">
+              <button id="load_more" type="button" class="mt-4 mb-4 col-4 btn btn-base mr-auto ml-auto font-14">تحميل المزيد <span id="loading_ico" class="float-right"><i class="fas fa-spinner fa-spin"></i></span></button>
+            </div>
+          </div>
+      </div>
+      <aside class="col-lg-3 col-md-12">
+        {% include "office/agenda_aside.html" %}
+        {% include "aside.html" %}
+      </aside>
+    </div>
+  </div>
+  {% endblock %}
+{% block footer %}
+
+<script>
+  var agenda_search_url = '{% url "office_api:agenda_search" %}'
+  var delete_obj_url = '{% url "office_api:agenda_delete" %}'
+  var today = '{{today|date:"Y-m-d"}}'
+  var update_agenda_url = '{{ update_agenda_url }}'
+</script>
+<script
+  src="{% static 'libraries/datepicker/js/bootstrap-datepicker.min.js' %}">
+</script>
+<script
+  src="{% static 'libraries/datepicker/js/datepicker-ar.js' %}">
+</script>
+<script
+  src="{% static 'js/agenda.js' %}">
+</script>
+<script
+  src="{% static 'js/delete_obj.js' %}">
+</script>
+
+{% endblock %}

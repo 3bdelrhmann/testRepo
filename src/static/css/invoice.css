@@ -1,0 +1,22 @@
+
+.invoice_box{
+    background-color: #2c519b08;
+
+}
+.invoice-title{
+    background-color: #2c519b;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    left: 25px;
+}
+.invoice_box{
+    display: none;
+}
+@media only screen and (max-width: 767px) {
+    .results-box{
+        overflow-x: scroll;
+    }
+}

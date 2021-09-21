@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/invoice_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="modal fade mt-5" id="ConfirmModal" tabindex="-1" role="dialog" aria-labelledby="ConfirmModal" aria-hidden="true">
+  <div class="modal-dialog mt-5" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">تأكيد الحذف</h5>
+      </div>
+      <div class="modal-footer">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+          <button value="DeleteInvoice" name="DeleteInvoice" type="submit" class="btn btn-danger">حذف</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row mt-5 mb-5">
+    <header class="pr-4">
+      <h5 class="invoices-header m-0">
+        <b>الفواتير  - فاتورة ({{invoice_detail.id}})</b>
+      </h5>
+    </header>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-9 col-md-12 mb-5">
+      {% if messages %}        
+        {% include 'alerts.html' %}
+      {% endif %}
+
+      <div class=" p-4 rounded-top  invoice-box col-12  border overflow-hidden">
+        <header class="col overflow-hidden">
+          <div class="col-6 float-right pt-4">
+            <h5 class=""><b>{{invoice_settings.office_title}}</b></h5>
+            <span class="address  d-block"><b> {{invoice_detail.lawyer.office_add}} , {{invoice_detail.lawyer.region}}</b></span>
+            <span class="address  d-block"><b>{{invoice_detail.lawyer.governorate}}, {{invoice_detail.lawyer.country}}</b></span>
+            <span class="phone  d-block">+<span class="country_code">({{invoice_detail.lawyer.country_code}})</span>{{invoice_detail.lawyer.phone_number}}</span>
+            {% if invoice_detail.customer_name %}
+              <span class="customer_name mt-2 d-block"><b>الموكل</b> : {{invoice_detail.customer_name}}</span>
+            {% endif %}
+          </div>
+          <div class="col-3 float-left text-left">
+            {% if invoice_settings.office_logo %}
+              <img src="{{invoice_settings.office_logo.url}}" class="img-thumbnail " >
+            {% endif %}
+          </div>
+        </header>
+        <div class="invoice_header_info mt-5  overflow-hidden ">
+          <div class="col-6 float-right"><b><span class="text-muted">تاريخ الإصدار  : </span><span class="invoice_date">{{invoice_detail.created_at|date:'d-m-Y' }}</span></b></div>
+          <div class="col-6 float-right"><b><span class="text-muted">رقم الفاتورة : </span><span class="invoice_id">{{invoice_detail.id }}</span></b></div>
+        </div>
+        <div class="items_header mt-3 bg-light-custom rounded overflow-hidden pt-3 pb-3">
+          <div class="col-6 float-right text-center"><b>البند</b></div>
+          <div class="col-6 float-right text-center"><b>التكلفة</b></div>
+        </div>
+        <div class="all_items mt-3   overflow-hidden">
+          {% for inv_inputs in invoice_detail.invoice_inputs.all %}
+          <div class="item p-3 overflow-hidden border-bottom">
+            <div class="col-6 float-right text-center"><b>{{inv_inputs.title}}</b></div>
+            <div class="col-6 float-right text-center"><b>{{inv_inputs.cost|floatformat}}</b></div>
+          </div>
+          {% endfor %}
+         </div>
+
+         <div class="invoice-detail col-sm-4 col-6  float-left pt-3 pb-3">
+          <div class="item overflow-hidden  pt-2 pb-2">
+            <div class="col-6 float-right text-muted">المجموع</div>
+            <div class="col-6 float-right text-muted">{{invoice_cost|floatformat}}</div>
+          </div>
+          <div class="item overflow-hidden  pt-2 pb-2">
+            <div class="col-6 float-right text-muted">ضرائب</div>
+            <div class="col-6 float-right text-muted">{{tax_percent|floatformat}}% <span class="float-right text-muted fees_pecentage">({{tax|floatformat}})</span> </div>
+          </div>
+          <div class="item overflow-hidden border-top mt-2 pt-2 pb-2">
+            <div class="col-6 float-right"><b>الإجمالي</b></div>
+            <div class="col-6 float-right"><b>{{invoice_with_tax|floatformat}}</b></div>
+          </div>
+         </div>
+      </div>
+      <div class="invoice-buttons container overflow-hidden text-center mt-3">
+        <div class="row">
+          <button href="#" class="pt-2 pb-2 rounded-0 col-3 btn btn-print  mr-auto ml-auto text-right"><span class="d-inline-block btn-ico"><i class="fas fa-print"></i></span>       <span class="btn-title d-inline-block">طباعة</span>  </button>
+          <a href="{% url 'office:invoice_update' invoice_detail.id %}" class="pt-2 pb-2 rounded-0 col-3 btn btn-edit   mr-auto ml-auto text-right"><span class="d-inline-block btn-ico"><i class="far fa-edit"></i></span>        <span class="btn-title d-inline-block">تعديل</span>  </a>
+          <button type="button" data-toggle="modal" data-target="#ConfirmModal" class="pt-2 pb-2 rounded-0 col-3 btn btn-danger mr-auto ml-auto text-right"><span class="d-inline-block btn-ico"><i class="fas fa-trash-alt"></i></span>   <span class="btn-title d-inline-block">حذف</span>    </button>
+        </div>
+      </div>
+    </div>
+    <aside class="col-lg-3 col-md-12">
+      {% include "aside.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+<script
+  src="{% static 'js/invoice_detail.js' %}">
+</script>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'libraries/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block style %}
+    {% endblock %}
+    <title>إنابة • {{title}}</title>
+</head>
+  <body>
+  <header class="header-menue  pt-3 pb-3">
+    <div class="container">
+      <nav id='navbar'>
+        <div class="row">
+          <div class="col-sm-9  float-right text-right d-md-block d-sm-none d-xs-none d-none">
+            {% if request.user.is_authenticated %}
+            {% include 'users_menu.html' %}
+            {% else %}
+            {% include 'non-users_menu.html' %}
+            {% endif %}
+          </div>
+          <div class="menu-btn col-6 text-right d-md-none d-sm-block d-xs-block d-block">
+            <a id="menu-btn" class="pr-4" href="#"><i class="fas fa-bars"></i></a>
+          </div>
+          <div class="col-6 col-sm-3 text-center">
+            <h5 class="m-0"><b>إنابة</b></h5>
+          </div>
+        </div>      
+      </nav>  
+    </div> 
+  </header>
+  <div class="overlay-menu overlflow-scroll ">
+      <header class=" text-right pt-3 pb-3">
+        <a id="close-btn" class="m-0 pr-5" href="#"><i class="fas fa-times"></i></a>
+      </header>
+      <ul class="text-right ">
+        <li class="p-4"><a href="#"><span class="icon"><i class="fas fa-home"></i></span> الصفحة الرئيسية</a></li>
+        <li class="p-4"><a href="#"><span class="icon"><i class="fas fa-phone"></i></span> إتصل بنا</a></li>
+        <li class="p-4"><a href="#"><span class="icon"><i class="fas fa-sign-in-alt"></i></span> الدخول</a></li>
+        <li class="p-4"><a href="#"><span class="icon"><i class="fas fa-plus"></i></span> إشتراك</a></li>
+      </ul>
+  </div>
+  {% block content %}
+  {% endblock %}
+
+  </body>
+
+
+<script 
+ src="https://kit.fontawesome.com/4bacb95c2a.js" crossorigin="anonymous">
+</script>
+<script
+  src="{% static 'libraries/jquery.js' %}">
+</script>
+
+<script
+ src="{% static 'libraries/bootstrap/js/bootstrap.bundle.min.js' %}" >
+</script>
+<script 
+    src="{% static 'libraries/bootstrap/js/bootstrap.min.js' %}">
+</script>
+<script
+  src="{% static 'js/main.js' %}">
+</script>
+<script>
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}  
+</script>
+
+{% block footer %}
+
+{% endblock %}
+</html>

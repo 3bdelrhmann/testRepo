@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block style %}
+    <link rel="stylesheet" href="{% static 'libraries/datepicker/css/bootstrap-datepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/create_invoice.css' %}">
+    {% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row mt-5 mb-5">
+    <header class="pr-4">
+      <h5 class="office-header m-0">
+        <span class="header-icon"><i class="fas fa-user"></i></span><b>
+          {{title}}
+        </b>
+      </h5>
+    </header>
+</div>
+  <div class="row">
+    <div class="col-lg-8 col-md-12 mb-5">
+      {% if messages %}        
+       {% include 'alerts.html' %}
+      {% endif %}
+      <div class="mb-4 p-4 rounded search-box col-12 shadow border ">
+
+        <div class="col" id="success_assistand_added" style="display: none;">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>تم</strong> إضافة محامي جديد بنجاح
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="client_box overflow-hidden mb-4 col" data-obj-id=''>
+            <div class="row  border-bottom">
+              <span  class="col pt-2 pb-2 d-block text-right text-muted border-left"><span class="span-icon text-right"><i class="fas fa-user-tie"></i></span><b>الموظف : </b> <span id="assistant_name"></span></span>
+              <span  class="col pt-2 pb-2 d-block text-right text-muted"><span class="span-icon text-right"><i class="fas fa-calendar-day"></i></span><b>البريد الإلكتروني : <span id="assistant_email"></span></b> 
+              <span id="assistant_mail"></span>
+            </span>
+            </div>
+            <div class="row">
+              <a id="invoice_href" href="#" class="col pt-3 pb-3 d-block text-center border-left light-color ">
+                <span class="span-icon text-right"><i class="fas fa-edit"></i></span>تعديل
+              </a>
+              <span data-id-delete="" id="delete-object" class="cursor-pointer col pt-3 pb-3 d-block text-center text-danger" data-target="#DeleteModalConfirmation" data-toggle="modal">
+                <span class="span-icon text-right text-danger"><i class="far fa-trash-alt"></i></span>
+                 حذف 
+              </span>
+              </div>
+          </div>
+          <div class="row bg-light">
+            <a class="col pt-3 pb-3 d-block text-center " id="mobile_number_href" href="{% url 'office:agenda' %}">
+              <span class="span-icon text-right"><i class="fas fa-arrow-alt-circle-right"></i></span>
+              الذهاب لـإدارة الموظفين
+            </a>
+          </div>
+        </div>
+        <div class="p-2" id="add_new_client_row">            
+            <div class="form-errors col-12" id="form-errors">
+            </div>
+            <form class="col pt-4 pb-4" action="#" method="POST" id="create_assistant_form" novalidate>
+              {% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="customer_name">الإسم</label>
+                  {{form.first_name}}
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="assign_to">-</label>
+                  {{form.last_name}}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+                  <label for="inputEmail4">البريد الإلكتروني</label>
+                  {{form.email}}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="customer_mobile">كلمة السر </label>
+                  {{form.password}}
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="file_id">إكتب كلمة السر مرة اخرى</label>
+                  <input type="password" class="form-control" name="confirm_password" autocomplete="new-password" id="">
+                </div>
+              </div>
+              <div class="form-row permission-title pt-3">
+                <p><b>صلاحيات الموظف</b></p>
+              </div>
+              <div class="form-check pt-2 pb-2">
+                {{form.allow_assistant_add}}
+                <label class="form-check-label pr-2" for="{{form.allow_assistant_add.id_for_label}}">
+                  <b>اللإضافة</b>
+                </label>
+              </div>
+              <div class="form-check pt-2 pb-2">
+                {{form.allow_assistant_update}}
+
+                <label class="form-check-label pr-2" for="{{form.allow_assistant_update.id_for_label}}">
+                  <b>التعديل</b>
+                </label>
+              </div>
+              <div class="form-check pt-2 pb-2">
+                {{form.allow_assistant_delete}}
+                <label class="form-check-label pr-2" for="{{form.allow_assistant_delete.id_for_label}}">
+                  <b>الحذف</b>
+                </label>
+              </div>
+              <div class="form-check pt-2 pb-2">
+                {{form.data_is_restricted}}
+                <label class="form-check-label pr-2" for="{{form.data_is_restricted.id_for_label}}">
+                  <b>رؤية البيانات الموكلة له فقط</b>
+                </label>
+              </div>
+              <div class="form-row mt-5">
+                <button type="submit" class="mr-auto ml-auto col-3 btn btn-base">إنشاء <span id="loading_ico_add"
+                    class="float-right"><i class="fas fa-spinner fa-spin"></i></span></button>
+                <button id="cancel_add_client" type="button" class="mr-auto ml-auto col-3 btn btn-danger">إلغاء</button>
+              </div>
+            </form>
+        </div>     
+      </div>
+    </div>
+    <aside class="col-lg-3 col-md-12">
+      {% include "office/agenda_aside.html" %}
+      {% include "aside.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}
+<script>
+  var create_assistant_url   = '{% url "office_api:create_assistant" %}'
+  var created_assistant_url  = '{{created_assistant_url}}'
+</script>
+<script
+  src="{% static 'js/create_assistant.js' %}">
+</script>
+{% endblock %}

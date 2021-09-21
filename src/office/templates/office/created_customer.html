@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'libraries/datepicker/css/bootstrap-datepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/create_invoice.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+  <div class="modal fade" id="DeleteModalConfirmation" tabindex="-1" role="dialog" aria-labelledby="DeleteModalConfirmation" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title ">تأكيد الحذف</h5>
+        </div>
+        <div class="modal-body">
+          هل متأكد من حذف هذا العنصر ؟
+        </div>
+        <div class="modal-footer d-block">
+          <form action="" method="post">
+            <button type="button" class="col-3 btn btn-secondary" data-dismiss="modal">إغلاق</button>
+            {% csrf_token %}
+            <button name="DeleteCustomerConfirmation" value="true" type="submit" class="col-3 btn btn-danger" id="ConfirmationDeleteBtn">
+              <span id="delete-content">حذف</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5 mb-5">
+    <header class="pr-4">
+      <h5 class="office-header m-0">
+        <span class="header-icon">
+          <i class="fas fa-calendar-check"></i>
+        </span>
+        <b>
+          {{title}}
+        </b>
+      </h5>
+    </header>
+  </div>
+  <div class="row">
+    <div class="col-lg-8 col-md-12 mb-5">
+      {% if messages %}
+      {% include 'alerts.html' %}
+      {% endif %}
+      <div class="mb-4 p-0  rounded search-box col-12 shadow border overflow-hidden">
+        <div class=" agenda_element_info form-grouo ">
+          <span id="notes" class="d-block text-justify font-15 text-muted p-2 ">
+          </span>
+        </div>
+        <div class="row  border-bottom ">
+            <span class="col pr-4 pb-2 d-block text-right border-left text-muted">
+                <span class="span-icon text-right"><i class="fas fa-user-tie">
+                </i></span><b>العميل : </b> <span id="client_name">
+                    {{customer_detail.customer_name}}
+                </span></span>
+                <span class="col pr-4  pb-2 d-block text-right text-muted">
+                <span class="span-icon text-right"><i class="fas fa-calendar-day"></i></span><b>رقم الملف : </b> 
+                <span class="date_container"><span id="client_file_id">
+                  {{customer_detail.file_id}}
+                </span></span></span>
+            </div>
+            <div class="row  border-bottom ">
+                <a id="client_mobile_number_href" href="tel:{{customer_detail.customer_mobile}}" class="col pt-3 pb-3 d-block text-center border-left light-color ">
+                    <span class="span-icon text-right"><i class="fas fa-phone"></i></span>
+                    إتصال
+                </a>
+                <span  class="col pt-3 pb-3 d-block text-center border-left light-color">
+                <span class="span-icon text-right"><i class="fas fa-copy"></i></span>
+                <span id="client_mobile_number">
+                    {{customer_detail.customer_mobile}}
+                </span>
+                </span>
+            </div>
+            <div class="row ">
+                <a id="invoice_href" href="{% url 'office:update_client' customer_detail.id %}" class="col pt-3 pb-3 d-block text-center border-left light-color ">
+                <span class="span-icon text-right"><i class="fas fa-edit"></i></span>تعديل
+                </a>
+                <span data-id-delete="{{customer_detail.id}}" id="delete-object" class="cursor-pointer col pt-3 pb-3 d-block text-center text-danger" data-target="#DeleteModalConfirmation" data-toggle="modal">
+                <span class="span-icon text-right text-danger"><i class="far fa-trash-alt"></i></span>
+                    حذف 
+                </span>
+            </div>
+        <div class="row border-top">
+          <a class="col pt-3 pb-3 d-block text-center border-left" id="mobile_number_href" href="{% url 'office:clients' %}">
+            <span class="span-icon text-right"><i class="fas fa-arrow-alt-circle-right"></i></span>
+            الذهاب لفهرس العملاء
+          </a>
+        </div>
+      </div>
+    </div>
+    <aside class="col-lg-3 col-md-12">
+      {% include "office/agenda_aside.html" %}
+      {% include "aside.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script>
+  PREFIX = '{{PREFIX}}'
+</script>
+
+
+{% endblock %}

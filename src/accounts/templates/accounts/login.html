@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+      <form novalidate action="{% url 'accounts:login' %}"  method="post" class="ml-auto mr-auto col-md-9 col-lg-5 col-12 rounded pt-4 pb-4 login-form overflow-hidden bg-white shadow-lg border">                
+        {% if request.GET.next %}
+        <input  name='next' type="hidden" value='{{request.GET.next}}'>
+        {% endif %}
+        {% csrf_token %}
+          <div class="pb-3 float-right  col-12 m-0 lawyer-info overflow-hidden">
+            <header class="logo-header pt-3 pb-5 col-12 m-0 overflow-hidden d-block">
+              <h6 class="m-0 float-right"><b> إنابة</b></h6>
+            </header>
+            <header class="login-header text-center pt-3 pb-5 col-12 m-0 overflow-hidden d-block">
+              <h5 class="m-0 "><b> تسجيل الدخول</b></h5>
+            </header>
+            <div class="form-fields col-12">
+              <div class="form-group row pb-3">
+                <label for="inputPassword" class="d-block col-sm-12 col-form-label">البريد الإلكتروني</label>
+                  <div class="col">
+                    {{LoginForm.email}}
+                    {% for error in LoginForm.email.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-12 p-0">
+                  <div class="col-12 pb-1 p-0 d-block">
+                    <label for="inputPassword" class="col-12 col-form-label">كلمة السر</label>
+                  </div>
+                  <div class="col-12">
+                    {{LoginForm.password}}
+                    {% for error in LoginForm.password.errors %}
+                      <span class="error_form_msg">{{ error|escape }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <label class="text-muted col-12 col-form-label">هل نسيت كلمة السر <b><a href="{% url 'accounts:reset_password' %}" target="_blank">إضغط هنا</a></b></label>
+                <div class="form-group row mt-4">
+                  <div class="col-12 p-0">
+                    <div class="col-12">
+                      <button type="submit" class="login-button col-12 btn login-btn ">تسجيل الدخول</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-5">
+                <div class="col-12 p-0">
+                  <div class="col-12 text-center d-block">
+                    <label class="text-muted col-12 col-form-label">إن لم يكن لديك حساب يمكنك <b><a href="{% url 'accounts:register' %}" target="_blank">التسجيل الان</a></b></label>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </form>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+<script
+  src="{% static 'js/login.js' %}">
+</script>
+{% endblock %}

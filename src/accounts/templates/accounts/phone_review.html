@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/phone_review.css' %}">
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <form action="" method="post" class=" rounded pt-4 pb-4 register-form overflow-hidden col-12 bg-white shadow-lg border">
+      {% csrf_token %}
+        <div class="pb-5 float-right  col-12 m-0 basic-info overflow-hidden">
+          <header class="pt-3 pb-5 col-12 m-0 overflow-hidden d-block">
+            <h6 class="m-0 float-right d-block"><b>تأكيد رقم الهاتف</b></h6>
+          </header>
+          <div class="form-fields col-12 ">
+              <div class="form-group row pb-3">
+                  <div class="mr-auto ml-auto col-lg-4 col-sm-6 col-12 pb-1">
+                    <span class="text-danger">{{form.phone_number.errors}}</span>
+                    {{form.phone_number}}
+                  </div>
+              </div>
+              <div class="mr-auto ml-auto col-lg-4 col-sm-6 col-12 ">
+                <p class="text-info d-block">سَنرسل لك رمز مكون من 6 ارقام لنتأكد من ملكيتك للرقم</p>
+                <button type="submit" class="register-button col-12 btn btn-base">إرسال الرمز</button>
+              </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+<script
+  src="{% static 'js/phone_review.js' %}">
+</script>
+{% endblock %}

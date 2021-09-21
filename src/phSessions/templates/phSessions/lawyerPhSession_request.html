@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'libraries/datepicker/css/bootstrap-datepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/agenda.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+  <div class="modal fade" id="DeleteModalConfirmation" tabindex="-1" role="dialog" aria-labelledby="DeleteModalConfirmation" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title " id="exampleModalLongTitle">تأكيد الحذف</h5>
+        </div>
+        <div class="modal-body">
+          هل متأكد من حذف هذا العنصر ؟
+        </div>
+        <div class="modal-footer d-block">
+          <button type="button" class="col-3 btn btn-secondary" data-dismiss="modal">إغلاق</button>
+          <button type="button" class="col-3 btn btn-danger" id="ConfirmationDeleteBtn">
+            <span id="loading_ico" class="delete-loading"><i class="fas fa-spinner fa-spin"></i></span>
+            <span id="delete-content">حذف</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5 mb-5">
+      <header class="pr-4">
+        <h5 class="office-header m-0">
+          <span class="header-icon">
+            <i class="far fa-bell"></i>
+
+          </span>
+          <b>
+            {{title}}
+          </b>
+        </h5>
+      </header>
+  </div>
+
+    <div class="row">
+      <div class="col">
+        {% if messages %}        
+          {% include 'alerts.html' %}
+        {% endif %}
+
+        <div class="mb-4 p-0 rounded search-box col-12 shadow border ">
+          <header class="bg-light-custom p-2 ">
+            <span class="span-icon text-warning">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>  
+            <b>
+              في حالة قبول الإستشارة ينبغي الإتصال بالعميل في خلال 10 دقائق
+            </b>
+          </header>
+          <form class="p-4 " action="#" method="get" id="search_form">
+            {% csrf_token %}
+            <div class="row">
+            </div>
+              <div class="row mt-3">
+                <div class="col-sm-6 col-12 pb-3">
+                  <button type="submit" id="search_btn" class="pt-3 pb-3 font-14 col btn btn-base-outline">
+                    قبول
+                  </button>
+                </div>
+                <div class="col-sm-6 col-12 pb-3">
+                  <button type="submit" id="search_btn" class="pt-3 pb-3 font-14 col btn btn-danger-outline">
+                    رفض
+                  </button>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+{% block footer %}
+
+<script
+  src="{% static 'libraries/datepicker/js/bootstrap-datepicker.min.js' %}">
+</script>
+<script
+  src="{% static 'libraries/datepicker/js/datepicker-ar.js' %}">
+</script>
+<script
+  src="{% static 'js/lawyerPhSession_request.js' %}">
+</script>
+<script
+  src="{% static 'js/lawyerPhSession_request.js' %}">
+</script>
+{% endblock %}

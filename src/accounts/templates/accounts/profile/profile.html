@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container pt-5">
+    <div class="row mt-5">
+      <div class="col-lg-8 col-md-12">
+        <div class="profile-card rounded pt-3 pb-3 border shadow bg-white col  overflow-hidden">
+          <div class="lawyer_img_box col-lg-3 col-sm-3  text-center float-right pt-2 overflow-hidden">
+            <img src="{{lawyer_info.profile_img.url }}" class="lawyer_img img-thumbnail rounded-circle">
+          </div>
+          <div class="col-lg-9 col-sm-6 context  float-right">
+            <h5 class="full_name"><b>{{lawyer_info.get_full_name}}</b></h5> 
+            <span class="mt-1 lawyer_degree "><b>محام {{lawyer_info.lawyer_degree}}</b></span> • <span class="mt-1 years_exprience"><b>{{years_exprience}} عام خبرة</b></span>
+            <div class="met_info pr-3 mt-2">
+              <!-- Static Data -->
+              <span class=" rate d-block"><b>تقييم المحامي</b> • <b class="rate"><span class="value_rate">2</span>/<span class="total_rate">5</span> </b></span> 
+              <span class=" rate_stars d-block">
+                <div class="rating-holder">
+                  <div class="c-rating c-rating--regular" data-rating-value="2.5">
+                    <button>1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>4</button>
+                    <button>5</button>
+                  </div>
+                </div>              
+              </span>
+              <!-- Static Data -->
+
+              <span class="mt-1 address d-block"><b>{{lawyer_info.office_add}}, {{lawyer_info.region}}</b></span>
+              <span class="address d-block"><b>{{lawyer_info.governorate}}, {{lawyer_info.country}}</b></span>
+            </div>
+          </div>
+        </div>
+        <div class="about mt-4 rounded pt-3 pb-3 border shadow bg-white col overflow-hidden">
+          <header>
+            <h6><b>عن المُحامي</b></h6>
+          </header>
+          <div class="about p-3">
+            <p>{{lawyer_info.about}}</p>
+          </div>
+        </div>
+        <div class="specialties mt-4 rounded pt-3 pb-3 border shadow bg-white col overflow-hidden">
+          <header>
+            <h6><b>التخصصات</b></h6>
+          </header>
+          <div class="all p-3">
+            {% for specialty in lawyer_info.specialties.all %}
+            <span class="d-inline-block specialty m-1 rounded">
+              {{specialty}}
+            </span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="book_lawyer mt-4 rounded pt-3 pb-3 border shadow bg-white col overflow-hidden">
+          {% if lawyer_available == True %}
+          <header>
+            <h6><b>حجز إستشارة</b></h6>
+          </header>
+          <div class="book_options overflow-hidden border-bottom  pt-3 pb-3">
+            <div class="float-right col-6 text-center border-left"><b>هاتفية</b></div>
+            <div class="float-right col-6 text-center"><b class="text-muted">مكتبية</b></div>
+          </div>
+          <form class="p-4 mt-3 " action="{% url 'phSession_api:book_phSession' %}" method="POST" id="phSession_form">
+            {% csrf_token %}
+            <div id="form_errors" class="overflow-hidden">
+            </div>
+            <input type="hidden" name="lawyer_id" value="{{lawyer_info.id}}">
+            <div id="form_inputs">
+            <div class="customer_info ">
+              <div class="form-group">
+                <label for="CustomerName" class="text-muted"><b>الإسم</b></label>
+                <input type="text" class="form-control" id="CustomerName" name="name">
+              </div>
+              <div class="form-group">
+                <label for="CustomerPhoneNumber"  class="text-muted"><b>رقم الهاتف</b></label>
+                <input type="text" class="form-control" id="CustomerPhoneNumber" name="mobile_number">
+              </div>
+            </div>
+            <div class="payment_method overflow-hidden">
+              <header class=" overflow-hidden p-2">
+                <b class="text-muted">وسيلة الدفع</b>
+              </header>
+                <div class="pr-3">
+                  <div class="form-check m-3 mb-4">
+                    <input  class="form-check-input" type="radio" id="fawry" name="payment_method"  value="2">
+                    <label class="form-check-label text-muted" for="fawry">
+                      <i class="fas fa-money-bill-wave ml-2"></i>  فوري
+                    </label>
+                  </div>
+                  <div class="form-check m-3 mb-4">
+                    <input  class="form-check-input" type="radio" id="credit" name="payment_method"  value="1">
+                    <label class="form-check-label  text-muted" for="credit">
+                      <i class="fas fa-credit-card ml-2"></i>  البطاقة الإتمانية
+                    </label>
+                  </div>
+                </div>
+                  <button id="phSession_form_submit" type="submit" class="btn btn-base col pt-2 pb-2"><span class="ico"><i class="fas fa-arrow-right"></i></span><b>حجز</b></button>
+            </div>
+            </div>
+            <div class="book_success text-center" id="book_success">
+              <span class="d-block success">
+                <i class="far fa-check-circle"></i>
+              </span>
+              <span>
+                <b class="d-block" style="color: #00909e;">تم</b> 
+                <span class="text-muted mt-2 d-block">الحجز بنجاح ستصلك رسالة على رقم هاتفك للتأكيد</span>
+              </span>
+            </div>
+          </form>
+          {% endif %}
+        </div>
+        
+        <div class="reviews mt-4 rounded pt-3 pb-3 border shadow bg-white col overflow-hidden">
+          <header>
+            <h6><b>اراء العملاء</b></h6>
+          </header>
+          <div class="all_reviews p-3 overflow-hidden" id="all_reviews">
+
+            <div id="empty_review" class="d-none">
+              <div class="review p-2 border-bottom" id="review" >
+                <span class=" rate_stars d-block">
+                  <div class="rating-holder">
+                    <div class="c-rating c-rating--regular" data-rating-value="0" id="rate">
+                      <button>1</button>
+                      <button>2</button>
+                      <button>3</button>
+                      <button>4</button>
+                      <button>5</button>
+                    </div>
+                  </div>              
+                </span>
+                <span class="comment d-block mb-2 mt-2 pr-2" id="comment">
+
+                </span>
+                <span class="customer_info d-block text-muted mt-3" id="customer_info">
+                </span>
+              </div>
+            </div>
+
+          </div>
+          <div class="row mt-4">
+            <button type="button" id="load_more" class="btn btn-base col-4 mr-auto ml-auto">تحميل المزيد <span id="loading_ico" class="float-right"><i class="fas fa-spinner fa-spin"></i></span></button>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-12">sidebar</div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+<script>
+  phSession_book_url = '{% url "phSession_api:book_phSession" %}'
+  lwReviews = '{% url "phSession_api:lw_reviews" %}'
+</script>
+<script
+  src="{% static 'js/profile.js' %}">
+</script>
+<script
+  src="{% static 'js/profile_book.js' %}">
+</script>
+
+{% endblock %}
