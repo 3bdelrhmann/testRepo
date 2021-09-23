@@ -1,0 +1,198 @@
+
+
+
+python manage.py migrate --run-syncdb
+
+from django.core.paginator import Paginator
+from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.conf import settings
+from django.conf.urls.static import static
+
+{% if request.GET.next %}
+<input  name='next' type="hidden" value='{{request.GET.next}}'>
+return redirect(self.request.GET.get('next'))
+
+AUTH_USER_MODEL = 'YourAppName.YourClassName'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+os.path.join(BASE_DIR, "templates")
+
+path('profile/',include('user_settings.urls',namespace='user_settings')),
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+def upload_location(instance, filename, **kwargs):
+    file_path = 'profiles/{author_id}/{title}-{filename}'.format(
+        author_id=str(instance.id), title=str(time()).replace('.', '_'), filename=filename)
+    return file_path
+
+class CustomUserManager(BaseUserManager):
+    def _create_user(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError('The Email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_banned', False)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        return self._create_user(email, password, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    GENDER_CHOICES = (
+        ('ذكر', 'ذكر'),
+        ('انثى', 'انثى')
+    )
+    id = models.UUIDField(default=uuid4, editable=False, primary_key=True)
+    username = models.UUIDField(
+        default=uuid4,
+    )
+    first_name = models.CharField(max_length=100)
+    last_name  = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    mobile_num = models.CharField(max_length=50, unique=True)
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES)
+    birth_date = models.DateField(null=True)
+    is_banned = models.BooleanField(default=False)
+    is_lawyer = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    USERNAME_FIELD = 'email'
+    objects = CustomUserManager()
+        
+        
+        
+class UserLogin(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs = {
+                'class' : 'form-control',
+                'id': 'EmailLogin',
+                'autofocus' : 'autofocus'
+        }
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+                'class' : 'form-control',
+                'id' : 'LoginPassword',
+    }))
+
+
+
+class UserRegister(forms.ModelForm):
+    email = forms.EmailField(label='البريد الإلكتروني', widget=forms.EmailInput(
+        attrs={
+            'class': 'form-control',
+            'id': 'email',
+            'autofocus': 'autofocus',
+        }
+    ), validators=[EmailValidator],
+        error_messages={'invalid': 'البريد الإلكتروني الذي أدخلته غير صالح',
+                        'required': 'قم بمليء جميع الحقول.',
+                        'unique': 'مُستخدم أخر يستخدم البريد الإلكتروني ادناه رجاءًا قم بتغييره'
+                        }
+    )
+    password = forms.CharField(max_length=50, label='كلمة السر', widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'id': 'password',
+        }
+    ),
+        error_messages={
+            'required': 'قم بمليء جميع الحقول.',
+    }
+    )
+    first_name = forms.CharField(max_length=50, label='الأسم', widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'id': 'first_name',
+            'placeholder': 'الأسم الأول',
+        }
+    ),
+        error_messages={
+            'required': 'قم بمليء جميع الحقول.',
+    }
+    )
+    last_name = forms.CharField(max_length=50, widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'id': 'last_name',
+            'placeholder': 'الأسم الثاني',
+        }
+    ),
+        error_messages={
+            'required': 'قم بمليء جميع الحقول.',
+    }
+    )
+    mobile_num = forms.CharField(max_length=50, label='رقم التليفون', widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'id': 'mobile_num',
+        }
+    ),
+        error_messages={
+            'required': 'قم بمليء جميع الحقول.',
+            'unique': 'مُستخدم أخر يستخدم رقم الهاتف ادناه رجاءًا قم بتغييره'
+        },
+        validators=[RegexValidator("^[0][1][2?0?5?1]\d{8}$",'رقم الهاتف غير صحيح')]
+    )
+    GENDER_CHOICES = (
+        ('ذكر', 'ذكر'),
+        ('انثى', 'انثى')
+    )
+
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, label='النوع', widget=forms.Select(attrs={
+        'class': 'form-control',
+        'id': 'gender',
+    })
+    )
+    birth_date = forms.CharField(label='تاريخ الميلاد', max_length=50, widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'id': 'birthday',
+            'placeholder': 'يوم-شهر-سنة',
+            'autocomplete': 'off',
+        }
+    ),
+        error_messages={
+            'required': 'قم بمليء جميع الحقول.',
+    }
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'email',
+            'first_name',
+            'last_name',
+            'mobile_num',
+            'gender',
+            'birth_date',
+            'password'
+        
+        ]
+
+
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <p> {{ error }} </p>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
