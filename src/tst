@@ -1,0 +1,33 @@
+      <div class="container">
+        <header class="text-right">
+            <h3 class="font-weight-bold">الخددمات المتاحة حاليًا</h3>
+        </header>
+        <div class="row">
+            <div class="card d-inline-block m-4 col-md p-0">
+                <img class="card-img-top" src="https://images.pexels.com/photos/39943/pexels-photo-39943.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                <div class="card-body">
+                  <h6 class="card-title text-right font-weight-bold">المرور</h6>
+                  <p class="card-text text-right">
+                    <ul class="text-right p-2" style="list-style-type: none;">
+                        <li><a href=""><b>تجديد الرخصة</b></a></li>
+                        <li><a href=""><b>طلب رخصة جديدة</b></a></li>
+                        <li><a href=""><b>طلب تجديد بطاقة شخصية</b></a></li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="card d-inline-block m-4 col-md p-0">
+                <img class="card-img-top" src="https://images.pexels.com/photos/6863183/pexels-photo-6863183.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                <div class="card-body">
+                  <h6 class="card-title text-right font-weight-bold">الأحوال الشخصية</h6>
+                  <p class="card-text text-right">
+                    <ul class="text-right p-2" style="list-style-type: none;">
+                        <li><a href=""><b>بلاغ فقدان البطاقة</b></a></li>
+                        <li><a href=""><b>إصدار بطاقة شخصية</b></a></li>
+                        <li><a href=""><b>طلب تجديد بطاقة شخصية</b></a></li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
